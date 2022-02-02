@@ -5,7 +5,7 @@ from tkinter import DISABLED, Misc, Place, ttk, filedialog
 from turtle import title
 from pygame import mixer
 
-class MusicPlayer(tk.Frame):
+class MusicPlayer():
     def __init__(self, master: Misc):
         self.window = master
         mixer.init()
@@ -14,26 +14,34 @@ class MusicPlayer(tk.Frame):
         self.window.configure(bg='white')
         s = ttk.Style(self.window)
         s.theme_use('vista')
+        self._varNowPlaying = tk.StringVar()
+        self._varPlayingNext = tk.StringVar()
         self.create_widgets()
+        self.set_now_playing('Puple Rain', 'Prince')
+        self.set_playing_next('Istanbul', 'We Could Be Giants')
 
     def create_widgets(self):
-        tk.Label(self.window, text='Now playing', bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=10, y=10)
-        tk.Label(self.window, text='Next up', bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=10, y=40)
-        tk.Label(self.window, text='Music directory', bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=10, y=70)
-        self.playing = tk.Entry(self.window, background='#F0F8FF', state=tk.DISABLED, font=('arial', 12, 'normal')).place(x=130, y=10)
-#        tk.Text(self.window, state=tk.DISABLED, bg='#F0F8FF', height=10, width=100, font=('arial', 12, 'normal')).place(x=130, y=10)
-        self.playing.delete(0, tk.END)
-        self.playing.insert(0, 'Purple Rain by Prince')
-
-        #self.playing.insert(0, 'Purple Rain by Prince')
-        self.next = tk.Label(self.window, text='Istanbul by We Could Be Giants', bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=130, y=40)
-        self.dir = tk.Label(self.window, text='C:\\Users\\Obliv\\Music', bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=130, y=70)
+        tk.Label(self.window, text='Now playing', font=('arial', 12, 'normal')).place(x=10, y=10)
+        tk.Label(self.window, text='Next up', font=('arial', 12, 'normal')).place(x=10, y=60)
+        tk.Label(self.window, text='Music directory', font=('arial', 12, 'normal')).place(x=10, y=90)
+        self.txtNowPlaying = tk.Message(self.window, border='1', font=('arial', 12, 'normal'), textvariable=self._varNowPlaying, width=160, justify=tk.CENTER)
+        #tk.Entry(self.window, background='#F0F8FF', font=('arial', 12, 'normal'))
+        self.txtNowPlaying.place(x=130, y=10)
+        self.txtPlayingNext = tk.Message(self.window,  border='1', font=('arial', 12, 'normal'), textvariable=self._varPlayingNext, width=160, justify=tk.CENTER)
+        self.txtPlayingNext.place(x=130, y=60)
+        self.dir = tk.Label(self.window, text='C:\\Users\\Obliv\\Music', font=('arial', 12, 'normal')).place(x=130, y=100)
         
     def change_music_dir(self, dir: str):
         self.dir.config(text=dir)
         # Load music from dir
 
-    def play():
+    def set_now_playing(self, song: str, author: str):
+        self._varNowPlaying.set(f'{song}\n{author}')
+
+    def set_playing_next(self, song: str, author: str):
+        self._varPlayingNext.set(f'{song} by {author}')
+
+    def play(self):
         #mixer.music.load(play_list.get(tk.ACTIVE))
         #var.set(play_list.get(tk.ACTIVE))
         #mixer.music.play()
