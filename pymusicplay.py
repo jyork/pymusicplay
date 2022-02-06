@@ -5,6 +5,8 @@ from tkinter import DISABLED, Misc, Place, ttk, filedialog
 from turtle import title
 from pygame import mixer
 
+from song import Song
+
 class MusicPlayer():
     def __init__(self, master: Misc):
         self.window = master
@@ -35,11 +37,11 @@ class MusicPlayer():
         self.dir.config(text=dir)
         # Load music from dir
 
-    def set_now_playing(self, song: str, author: str):
-        self._varNowPlaying.set(f'{song}\n{author}')
+    def set_now_playing(self, song: Song):
+        self._varNowPlaying.set(f'{song.title}\n{song.artist}')
 
-    def set_playing_next(self, song: str, author: str):
-        self._varPlayingNext.set(f'{song} by {author}')
+    def set_playing_next(self, song: Song):
+        self._varPlayingNext.set(f'{song.title} by {song.artist}')
 
     def play(self):
         #mixer.music.load(play_list.get(tk.ACTIVE))
